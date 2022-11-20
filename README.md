@@ -116,6 +116,7 @@ docker exec -it webdav cat /var/log/nginx/webdav_access.log
 docker exec -it webdav /var/log/nginx/webdav_error.log
 ```
 
-
+## Agradecimientos
+- Gracias a [Germán Martín](https://github.com/gmag11) por añadir la compatibilidad con clientes Windows 10. [Fork](https://github.com/gmag11/docker-webdav)
 
 
