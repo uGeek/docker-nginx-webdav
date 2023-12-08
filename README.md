@@ -1,6 +1,6 @@
 # Servidor webdav partiendo de debian-testing
 
-##  Clonar el repositorio
+## Clonar el repositorio
 
 ```
 git clone https://github.com/uGeek/docker-nginx-webdav.git
@@ -13,11 +13,13 @@ cd docker-nginx-webdav
 ```
 
 ## Construir la imagen
+
 ```
 docker build -t ugeek/webdav:arm .
 ```
 
 ## Ver el número de imagen:
+
 ```
 docker images
 ```
@@ -25,12 +27,13 @@ docker images
 ## Montar el contenedor
 
 ### docker-cli
+
 USERNAME: webdav
 PASSWORD: webdav
 PUERTO: 80
+MAXIMO 50 USUARIOS
 
 --restart=unless-stopped: Iniciar cada vez que iniciemos el servidor
-
 
 ```
 docker run --name webdav \
@@ -39,6 +42,10 @@ docker run --name webdav \
   -v $HOME/docker/webdav:/media \
   -e USERNAME=webdav \
   -e PASSWORD=webdav \
+  -e USERNAME1=webdav \
+  -e PASSWORD1=webdav \
+  -e USERNAME2=webdav \
+  -e PASSWORD2=webdav \
   -e TZ=Europe/Madrid \
   -e UDI=1000 \
   -e GID=1000 \
@@ -60,13 +67,17 @@ services:
     environment:
       - USERNAME=webdav
       - PASSWORD=webdav
+      - USERNAME1=${USER1}
+      - PASSWORD1=${PASSWORD1}
+      - USERNAME2=${USER2}
+      - PASSWORD2=${PASSWORD2}
       - UID=1000
       - GID=1000
       - TZ=Europe/Madrid
     networks:
       - web
     labels:
-      - traefik.backend=webdav                                                                                               
+      - traefik.backend=webdav
       - traefik.frontend.rule=Host:webdav.tu_dominio.duckdns.org
       - traefik.docker.network=web
       - traefik.port=80
@@ -82,16 +93,16 @@ services:
       - traefik.http.middlewares.securedheaders.headers.frameDeny=true
       - traefik.http.middlewares.securedheaders.headers.browserXssFilter=true
       - traefik.http.middlewares.securedheaders.headers.contentTypeNosniff=true
-networks:                                                                                                                   
+networks:
   web:
-   external: true 
+   external: true
 ```
 
 Introduce el comando...
+
 ```
 docker-compose up -d
 ```
-
 
 ## Logs
 
@@ -109,14 +120,12 @@ docker exec -it webdav cat /var/log/nginx/webdav_access.log
 docker exec -it webdav cat /var/log/nginx/webdav_access.log
 ```
 
-
-
 ### logs con error
+
 ```
 docker exec -it webdav /var/log/nginx/webdav_error.log
 ```
 
 ## Agradecimientos
+
 - Gracias a [Germán Martín](https://github.com/gmag11) por añadir la compatibilidad con clientes Windows 10. [Fork](https://github.com/gmag11/docker-webdav)
-
-
