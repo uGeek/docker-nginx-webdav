@@ -1,8 +1,10 @@
 #!/bin/bash
 
+touch /etc/nginx/htpasswd
+
 if [ -n "$USERNAME" ] && [ -n "$PASSWORD" ]
 then
-    htpasswd -bc /etc/nginx/htpasswd "$USERNAME" "$PASSWORD"
+    htpasswd -b /etc/nginx/htpasswd "$USERNAME" "$PASSWORD"
     echo "Done for User: $USERNAME"
 fi
 
@@ -14,7 +16,7 @@ do
 
     if [ -n "${!username_var}" ] && [ -n "${!password_var}" ]
     then
-        htpasswd -bc /etc/nginx/htpasswd "${!username_var}" "${!password_var}"
+        htpasswd -b /etc/nginx/htpasswd "${!username_var}" "${!password_var}"
         echo "Done for User $i: ${!username_var}"
     fi
 done
