@@ -10,7 +10,7 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/v') 
     runs-on: ubuntu-latest
 
-    name: Build and release the electron app
+    name: Build and push image
     steps:
       -
         name: Set up QEMU
@@ -30,4 +30,4 @@ jobs:
         with:
           platforms: linux/amd64,linux/arm64,linux/arm/v7, linux/arm64/v8
           push: true
-          tags: user/app:latest
+          tags: reply2future/docker-webdav:latest,reply2future/docker-webdav:${{ github.ref_name }}
