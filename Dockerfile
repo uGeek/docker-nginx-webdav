@@ -1,6 +1,6 @@
 FROM debian:stable-slim
 
-LABEL maintainer "ugeek. ugeekpodcast@gmail.com" 
+LABEL maintainer "6359152+reply2future@users.noreply.github.com" 
 
 ARG UID=${UID:-1000}
 ARG GID=${GID:-1000}

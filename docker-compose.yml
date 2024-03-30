@@ -1,8 +1,8 @@
-version: '2'
+version: '3'
 services:
   webdav:
     container_name: webdav
-    image: ugeek/webdav:arm
+    image: reply2future/webdav:arm
     ports:
       - 80:80
     volumes:
