@@ -1,30 +1,38 @@
+# Servidor webdav partiendo de debian-testing
 
-# Webdav Server based on debian-testing
+##  Clonar el repositorio
 
-## Cloning the repository
+```
+git clone https://github.com/reply2future/docker-webdav.git
+```
 
-> git clone https://github.com/reply2future/docker-webdav.git
+y accedemos al interior de la carpeta:
 
-and we access the inside of the folder :
-
+```
 cd docker-webdav
+```
 
-## Building the image
+## Construir la imagen
+```
 docker build -t reply2future/webdav:arm .
+```
 
-## Check the image number:
+## Ver el número de imagen:
+```
 docker images
+```
 
-## Mounting the container
+## Montar el contenedor
 
 ### docker-cli
 USERNAME: webdav
 PASSWORD: webdav
-PORT: 80
+PUERTO: 80
 
---restart=unless-stopped: Start each time we start the server
+--restart=unless-stopped: Iniciar cada vez que iniciemos el servidor
 
-```bash
+
+```
 docker run --name webdav \
   --restart=unless-stopped \
   -p 80:80 \
@@ -32,19 +40,19 @@ docker run --name webdav \
   -e USERNAME=webdav \
   -e PASSWORD=webdav \
   -e TZ=Europe/Madrid \
-  -e UID=1000 \
+  -e UDI=1000 \
   -e GID=1000 \
-  -d  uge ek/webdab:arm
+  -d reply2future/webdab:arm
 ```
 
-### docker-compose with traefik and reverse proxy
+### docker-compose con traefik y proxy inverso
 
-```yaml
+```
 version: '2'
 services:
   webdav:
     container_name: webdav
-    image: ugeek/webdav:arm
+    image: reply2future/webdav:arm
     ports:
       - 80:80
     volumes:
@@ -58,14 +66,14 @@ services:
     networks:
       - web
     labels:
-      - traefik.backend=webdav
+      - traefik.backend=webdav                                                                                               
       - traefik.frontend.rule=Host:webdav.tu_dominio.duckdns.org
       - traefik.docker.network=web
       - traefik.port=80
       - traefik.enable=true
       # Adding in secure headers
       - traefik.http.middlewares.securedheaders.headers.forcestsheader=true
-      - traefik.http.middlewares.securedheaders. headers.sslRedirect=true
+      - traefik.http.middlewares.securedheaders.headers.sslRedirect=true
       - traefik.http.middlewares.securedheaders.headers.STSPreload=true
       - traefik.http.middlewares.securedheaders.headers.ContentTypeNosniff=true
       - traefik.http.middlewares.securedheaders.headers.BrowserXssFilter=true
@@ -74,30 +82,41 @@ services:
       - traefik.http.middlewares.securedheaders.headers.frameDeny=true
       - traefik.http.middlewares.securedheaders.headers.browserXssFilter=true
       - traefik.http.middlewares.securedheaders.headers.contentTypeNosniff=true
-networks:
+networks:                                                                                                                   
   web:
-   external: true
+   external: true 
 ```
 
-Enter the command...
-> docker-compose up -d
+Introduce el comando...
+```
+docker-compose up -d
+```
 
 
 ## Logs
 
-New log record added.
+Añadido nuevo registro de logs.
 
-### See logs
+### Ver logs
 
-> docker exec -it webdav cat /var/log/nginx/webdav_access.log
+```
+docker exec -it webdav cat /var/log/nginx/webdav_access.log
+```
 
-### Real Time Logs
+### Logs en tiempo real
 
-> docker exec -it webdav cat /var/log/nginx/webdav_access.log
+```
+docker exec -it webdav cat /var/log/nginx/webdav_access.log
+```
 
-### Error Logs
 
-> docker exec -it webdav /var/log/nginx/webdav_error.log
 
-## Acknowledgements
-- Thanks to [Germán Martín](https://github.com/gmag11) for adding compatibility with Windows 10 clients. [Fork](https://github.com/gmag11/docker-webdav)
+### logs con error
+```
+docker exec -it webdav /var/log/nginx/webdav_error.log
+```
+
+## Agradecimientos
+- Gracias a [Germán Martín](https://github.com/gmag11) por añadir la compatibilidad con clientes Windows 10. [Fork](https://github.com/gmag11/docker-webdav)
+
+
