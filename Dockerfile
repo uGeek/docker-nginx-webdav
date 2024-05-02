@@ -1,4 +1,4 @@
-FROM debian:10.6-slim
+FROM debian:12.5-slim as debian_base
 
 LABEL maintainer "ugeek. ugeekpodcast@gmail.com" 
 
@@ -9,9 +9,16 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
                     nginx \
                     nginx-extras \
-                    apache2-utils && \
+                    apache2-utils \ 
+                    logrotate && \
                     rm -rf /var/lib/apt/lists
 
+FROM debian_base as debian_logs
+
+COPY ./nginx_log_rotate /etc/logrotate.d/nginx
+RUN /usr/sbin/logrotate -f /etc/logrotate.conf
+
+FROM debian_logs
 RUN usermod -u $UID www-data && groupmod -g $GID www-data
 
 VOLUME /media
