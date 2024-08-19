@@ -15,6 +15,8 @@ RUN apt-get update && \
 RUN usermod -u $UID www-data && groupmod -g $GID www-data
 
 VOLUME /media
+VOLUME /logs
+
 EXPOSE 80
 
 COPY webdav.conf /etc/nginx/conf.d/default.conf

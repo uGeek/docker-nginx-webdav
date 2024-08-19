@@ -6,7 +6,8 @@ services:
     ports:
       - "80:80"
     volumes:
-      - "$HOME/docker/webdav:/media"
+      - "$HOME/docker-webdav/media:/media"
+      - "$HOME/docker-webdav/logs:/logs"
     environment:
       - USERNAME=webdav
       - PASSWORD=webdav

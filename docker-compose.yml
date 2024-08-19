@@ -2,11 +2,12 @@ version: '3'
 services:
   webdav:
     container_name: webdav
-    image: reply2future/webdav:arm
+    image: reply2future/webdav
     ports:
       - 80:80
     volumes:
-      - $HOME/docker/webdav:/media
+      - "$HOME/docker-webdav/media:/media"
+      - "$HOME/docker-webdav/logs:/logs"
     environment:
       - USERNAME=webdav
       - PASSWORD=webdav
